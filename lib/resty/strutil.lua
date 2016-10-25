@@ -1,16 +1,15 @@
-local _M = {};
+local _M = { _VERSION="1.0.0"};
 
-_M.split = function (split, str)
+
+function _M:split(split, str)
 	local str_split_tab = {}
 	while true do
 		local idx = string.find(str,split,1,true);
 		if nil~=idx then
 			local insert_str = '';
 			if 1==idx then
-				--踢掉分割字符串
 				insert_str = string.sub(str, 1,idx + #split - 1);
 			else
-				--提取插入字符串
 				insert_str = string.sub(str, 1,idx - 1);
 			end
 
@@ -28,28 +27,21 @@ _M.split = function (split, str)
 	return str_split_tab;
 end
 
---替换字符串 ： 性能较差
-_M.replace = function (str, find, replace)
+
+function _M:replace(str, find, replace)
 	local res,res_count = string.gsub(str,find,replace);
 	return res,res_count
 end
 
---批量替换字符串数组 ： 性能更差
-_M.replace_all = function (str,replace_tab)
-	for key,val in pairs(replace_tab) do
-		str = string.gsub(str,key,val);
-	end
+
+function _M:trim(str)
+	str = _M:trim_left( str );
+	str = _M:trim_right( str );
 	return str;
 end
 
 
-_M.trim = function(str)
-	str = _M.trim_left( str );
-	str = _M.trim_right( str );
-	return str;
-end
-
-_M.trim_left = function ( str )
+function _M:trim_left( str )
 	if ''==str or nil==str then
 		return str;
 	end
@@ -78,7 +70,8 @@ _M.trim_left = function ( str )
 	return str;
 end
 
-_M.trim_right = function ( str )
+
+function _M:trim_right( str )
 	if ''==str or nil==str then
 		return str;
 	end
@@ -107,5 +100,22 @@ _M.trim_right = function ( str )
 	return str;
 
 end
+
+
+function _M:upper(str)
+	if ''==str or nil==str then
+		return str;
+	end
+	return string.upper(str);
+end
+
+
+function _M:lower(str)
+	if ''==str or nil==str then
+		return str;
+	end
+	return string.lower(str);
+end
+
 
 return _M;
